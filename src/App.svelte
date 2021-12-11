@@ -64,18 +64,18 @@
     max-width: 240px;
     margin: 0 auto;
   }
-  form{
-	  border: 1px solid black;
-	  padding: 20px;
-	  border-radius: 10px;
+  form {
+    border: 1px solid #000;
+    padding: 20px;
+    border-radius: 10px;
   }
-  input[type="submit"]{
-	  margin-top:20px;
-	  background-color: greenyellow;
-	  color:white;
-	  cursor: pointer;
+  input[type="submit"] {
+    margin-top: 20px;
+    background-color: rgb(53, 235, 62);
+    color: #fff;
+    cursor: pointer;
   }
-  input[type="submit"]:hover{
-	  background-color: chartreuse;
+  input[type="submit"]:hover {
+    background-color: rgb(99, 197, 0);
   }
 </style>
