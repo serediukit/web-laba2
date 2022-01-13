@@ -15,6 +15,8 @@
         });
         const result = await response.json();
     } catch(e) {
+      resultText.set("Failure");
+      isLoading = false;
       return result.status(400).json({
         status: 500,
         errors: ["Svelte error"],
