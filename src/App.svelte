@@ -5,14 +5,24 @@
   const formData = {};
   const submit = async () => {
     isLoading = true;
-    const response = await fetch("/api/sendMail", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(formData),
-    });
-    const result = await response.json();
+    try {
+        const response = await fetch("/api/sendMail", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+          },
+          body: JSON.stringify(formData),
+        });
+        const result = await response.json();
+    } catch(e) {
+      return result.status(400).json({
+        status: 500,
+        errors: ["Svelte error"],
+        result: {
+          success: false,
+        },
+      });
+    }
     resultText.set(result.result.success ? "Success!" : "Failure");
     isLoading = false;
   };
