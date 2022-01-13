@@ -13,19 +13,17 @@
           },
           body: JSON.stringify(formData),
         });
-        const result = await response.json();
+        const resultJson = await response.json();
+        result.set(
+          resultJson.result.success
+            ? "Mail has been sent"
+            : resultJson.errors.join("/n"),
+        );
+        resultText.set("Success");
     } catch(e) {
+      result.set("Error: ", e.message);
       resultText.set("Failure");
-      isLoading = false;
-      return result.status(400).json({
-        status: 500,
-        errors: ["Svelte error"],
-        result: {
-          success: false,
-        },
-      });
     }
-    resultText.set(result.result.success ? "Success!" : "Failure");
     isLoading = false;
   };
 </script>
