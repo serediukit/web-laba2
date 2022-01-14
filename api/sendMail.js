@@ -35,31 +35,36 @@ async function formSubmit(formData) {
 
 const history = new Map();
 const rateLimit = (ip, limit = 3) => {
-  if (!history.has(ip)) {
-    history.set(ip, 0);
+  let hg = history.get(ip) || 0;
+  if (hg++ > limit) {
+    throw new CustomError("To many requests",429);
   }
-  if (history.get(ip) > limit) {
-    throw new Error();
-  }
-  history.set(ip, history.get(ip) + 1);
+  history.set(ip, hg);
 };
 
 const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const nameValid = /[a-zA-ZЁёА-я]+$/;
 
+class CustomError extends Error {
+  constructor(message, status) {
+    super(message);
+    this.status = status;
+  }
+}
+
 const validate = (body) => {
   const { email, name, password, confirmPassword } = body;
   if (!email || !name || !password || !confirmPassword) {
-    throw new Error();
+    throw new CustomError("One of the fields is empty", 204);
   }
   if (!emailValid.test(email)) {
-    throw new Error();
+    throw new CustomError("Incorrect Email", 400);
   }
   if (!nameValid.test(name)) {
-    throw new Error();
+    throw new CustomError("Incorrect name", 400);
   }
   if (password !== confirmPassword) {
-    throw new Error();
+    throw new CustomError("Password's are not similar", 400);
   }
 };
 
@@ -70,7 +75,7 @@ module.exports = async (req, res) => {
     const result = await formSubmit(req.body);
     res.json({ result });
   } catch (e) {
-    const status = e.status || 400;
+    const status = e.status || 500;
     const msg = e.message || "Error message";
     return res.status(status).json({
       status,
