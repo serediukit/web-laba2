@@ -4,7 +4,7 @@
   let resultText = writable("");
   const formData = {};
   const submit = async () => {
-    isLoading = true;
+    //isLoading = true;
     try {
         const response = await fetch("/api/sendMail", {
           method: "POST",
