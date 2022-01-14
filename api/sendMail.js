@@ -15,13 +15,9 @@ function getTransporter() {
 }
 
 async function sendMail(options) {
-  try {
     const transport = getTransporter();
     await transport.sendMail(options);
     return { success: true };
-  } catch (error) {
-    throw new Error(error?.message);
-  }
 }
 const from = `Valentyn Serediuk - ${process.env.EMAIL_ADRESS}`;
 async function formSubmit(formData) {
@@ -74,9 +70,11 @@ module.exports = async (req, res) => {
     const result = await formSubmit(req.body);
     res.json({ result });
   } catch (e) {
-    return res.status(e.status).json({
-      status: e.status,
-      errors: [e.message],
+    const status = e.status || 400;
+    const msg = e.message || "Error message";
+    return res.status(status).json({
+      status,
+      errors: [msg],
       result: {
         success: false,
       },
