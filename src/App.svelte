@@ -21,8 +21,7 @@
         );
         resultText.set("Success");
     } catch(e) {
-      result.set("Error: ", e.message);
-      resultText.set("Failure");
+      resultText.set("Failure... Error: ", e.message);
     }
     isLoading = false;
   };
