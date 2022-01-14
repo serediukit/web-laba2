@@ -19,7 +19,6 @@
             ? "Mail has been sent"
             : resultJson.errors.join("/n"),
         );
-        resultText.set("Success");
     } catch(e) {
       resultText.set("Failure... Error: ", e.message);
     }
