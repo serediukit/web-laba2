@@ -14,14 +14,13 @@
           body: JSON.stringify(formData),
         });
         const resultJson = await response.json();
-        result.set(
+        resultText.set(
           resultJson.result.success
             ? "Mail has been sent"
             : resultJson.errors.join("/n"),
         );
         resultText.set("Success");
     } catch(e) {
-      console.log(e);
       resultText.set("Failure... Error: ", e.message);
     }
     isLoading = false;
